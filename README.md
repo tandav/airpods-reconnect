@@ -2,6 +2,8 @@ Script to automatically reconnect airpods and resume playback
 I have heavy issues with it on Catalina. Sometimes connection drops every 30 seconds.
 
 ### dependencies
+python3 should be installed
+
 ```sh
 brew install blueutil
 brew install switchaudio-osx
