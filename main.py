@@ -34,14 +34,14 @@ def connect():
     print('successfully connected to', airpods_name)
 
 def is_connected():
-    return co(['blueutil',  '--is-connected', airpods_id]) == '0'
+    return co(['blueutil',  '--is-connected', airpods_id]) == '1'
 
 k = PyKeyboard()
 
 while True:
     if current_output() != airpods_name:
         print('triggered')
-        if not is_connected():
+        if is_connected():
             disconnect()
         connect()
         print('pressing PLAY')
