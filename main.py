@@ -3,42 +3,45 @@ import time
 import subprocess
 from pykeyboard import PyKeyboard # TODO: dive into source to get rid of PyUserInput dependency, also try osascript
 
-AIRPODS_NAME = 'AirPods Pro'
-
 cc = subprocess.check_call
 co = lambda x: subprocess.check_output(x, text=True).strip()
+
+airpods_name = 'AirPods Pro'
+
+def get_id(name):
+    for x in json.loads(co(['blueutil', '--paired', '--format', 'json'])):
+        if x['name'] == name:
+            return x['address']
+
+airpods_id = get_id(airpods_name)
 
 def current_output():
     return co(['SwitchAudioSource', '-c'])
 
-def get_id(name):
-    for x in json.loads(co(['blueutil',  '--paired', '--format', 'json'])):
-        if x['name'] == name:
-            return x['address']
-
-def disconnect(device_id):
+def disconnect():
     print('disconnect')
-    cc(['blueutil', '--disconnect', device_id])
+    cc(['blueutil', '--disconnect', airpods_id])
 
-def connect(device_id):
+def connect():
     print('connect')
+    cc(['blueutil', '--connect', airpods_id])
     while True:
         curr_device = current_output()
-        if curr_device == AIRPODS_NAME:
+        if curr_device == airpods_name:
             break
         print('waiting until connect, current output device is:', curr_device)
         time.sleep(1)
+    print('successfully connected to', airpods_name)
 
-def is_connected(device_id):
-    return co(['blueutil',  '--is-connected', device_id]) == '0'
-
-airpods = get_id(AIRPODS_NAME)
+def is_connected():
+    return co(['blueutil',  '--is-connected', airpods_id]) == '0'
 
 while True:
-    if current_output() != AIRPODS_NAME:
+    if current_output() != airpods_name:
         print('triggered')
-        disconnect(airpods)
-        connect(airpods)
+        if not is_connected():
+            disconnect()
+        connect()
         print('pressing PLAY')
         PyKeyboard().press_key('KEYTYPE_PLAY') # resume playback
     print('all good' + ' ' * int(str(int(time.time()))[-1]) + '*')
