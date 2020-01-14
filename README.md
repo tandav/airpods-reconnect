@@ -11,6 +11,9 @@ python -m pip install PyUserInput
 ```
 
 ### run
+
+set [this](https://github.com/tandav/airpods-reconnect/blob/master/main.py#L9) variable to your airpods name. (click in menubar/bluetooth or in system preferences/bluetooth)
+
 ```
 python main.py
 ```
