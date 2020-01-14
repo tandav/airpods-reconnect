@@ -1,11 +1,19 @@
-# dependencies
+Script to automatically reconnect airpods and resume playback  
+I have heavy issues with it on Catalina. Sometimes connection drops every 30 seconds.
+
+### dependencies
 ```sh
 brew install blueutil
 brew install switchaudio-osx
 python -m pip install PyUserInput
 ```
 
-logs example:
+### run
+```
+python main.py
+```
+
+### logs example
 ```
 all good     *
 all good      *
