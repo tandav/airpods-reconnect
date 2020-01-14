@@ -1,19 +1,23 @@
 import json
 import time
 import subprocess
-from pykeyboard import PyKeyboard # TODO: dive into source to get rid of PyKeyboard dependency
+from pykeyboard import PyKeyboard # TODO: dive into source to get rid of PyUserInput dependency
+
+cc = subprocess.check_call
+co = lambda x: subprocess.check_output(x, text=True).strip()
 
 AIRPODS_NAME = 'AirPods Pro'
 
 def find(name):
-    _ = subprocess.check_output(['blueutil',  '--paired', '--format', 'json'])
+    _ = co(['blueutil',  '--paired', '--format', 'json'])
     _ = json.loads(_)
     for x in _:
         if x['name'] == name:
             return x
         
-def disconnect(id_): subprocess.run(['blueutil', '--disconnect', id_])
-def connect   (id_): subprocess.run(['blueutil', '--connect'   , id_])
+def disconnect(id_): cc(['blueutil', '--disconnect', id_])
+def connect   (id_): cc(['blueutil', '--connect'   , id_])
+def is_connected(id_): return co(['blueutil',  '--is-connected', 'e4-76-84-20-f5-8d']) == '0'
 
 
 airpods = find(AIRPODS_NAME)
@@ -32,8 +36,7 @@ airpods object looks like:
 }
 '''
 
-def current_output():
-    return subprocess.check_output(['SwitchAudioSource', '-c'], text=True).strip()
+def current_output(): return co(['SwitchAudioSource', '-c'])
 
 # if current_output() != AIRPODS_NAME:
 #     print('triggered')
@@ -44,17 +47,22 @@ def current_output():
 while True:
     if current_output() != AIRPODS_NAME:
         print('triggered')
-        disconnect(airpods['address'])
+        if not is_connected:
+            print('disconnect')
+            disconnect(airpods['address'])
+        print('connect')
         connect(airpods['address'])
 
         while True:
             curr_device = current_output()
             print('waiting reconnect', curr_device)
             if curr_device == AIRPODS_NAME:
+                print(curr_device == AIRPODS_NAME)
                 continue
             time.sleep(1)
 
-        PyKeyboard().press_key('KEYTYPE_PLAY')
+        print('pressing PLAY')
+        PyKeyboard().press_key('KEYTYPE_PLAY') # resume playback
     else:
         print('all good')
     time.sleep(1)  
