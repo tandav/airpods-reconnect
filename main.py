@@ -1,34 +1,27 @@
 import json
 import time
 import subprocess
-import random
 from pykeyboard import PyKeyboard # TODO: dive into source to get rid of PyUserInput dependency, also try osascript
 
 AIRPODS_NAME = 'AirPods Pro'
 
-
 cc = subprocess.check_call
 co = lambda x: subprocess.check_output(x, text=True).strip()
 
-
 def current_output():
     return co(['SwitchAudioSource', '-c'])
-
 
 def get_id(name):
     for x in json.loads(co(['blueutil',  '--paired', '--format', 'json'])):
         if x['name'] == name:
             return x['address']
 
-
 def disconnect(device_id):
     print('disconnect')
     cc(['blueutil', '--disconnect', device_id])
 
-
 def connect(device_id):
     print('connect')
-    cc(['blueutil', '--connect'   , device_id])
     while True:
         curr_device = current_output()
         if curr_device == AIRPODS_NAME:
@@ -39,9 +32,7 @@ def connect(device_id):
 def is_connected(device_id):
     return co(['blueutil',  '--is-connected', device_id]) == '0'
 
-
 airpods = get_id(AIRPODS_NAME)
-
 
 while True:
     if current_output() != AIRPODS_NAME:
