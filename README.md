@@ -27,12 +27,14 @@ disconnect
 connect
 waiting until connect, current output device is: Built-in Output
 waiting until connect, current output device is: Built-in Output
-waiting until connect, current output device is: Built-in Output
 waiting until connect, current output device is:
 successfully connected to AirPods Pro
 pressing PLAY
 all good   *
 all good    *
-all good     *
-all good       *
 ```
+
+### todo
+- maybe rewrite in shell for better availability
+    - but maybe there's python3 in catalina [but you will have to install command line tools](google.com/search?q=macos+catalina+python+3)
+- try to minimize deps, at least PyUserInput

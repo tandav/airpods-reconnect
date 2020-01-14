@@ -36,6 +36,8 @@ def connect():
 def is_connected():
     return co(['blueutil',  '--is-connected', airpods_id]) == '0'
 
+k = PyKeyboard()
+
 while True:
     if current_output() != airpods_name:
         print('triggered')
@@ -43,6 +45,6 @@ while True:
             disconnect()
         connect()
         print('pressing PLAY')
-        PyKeyboard().press_key('KEYTYPE_PLAY') # resume playback
+        k.press_key('KEYTYPE_PLAY') # resume playback
     print('all good' + ' ' * int(str(int(time.time()))[-1]) + '*')
     time.sleep(1)  
