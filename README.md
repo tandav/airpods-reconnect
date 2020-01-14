@@ -12,14 +12,15 @@ python -m pip install PyUserInput
 
 ### run
 
-set [this](https://github.com/tandav/airpods-reconnect/blob/master/main.py#L9) variable to your airpods name. (click in menubar/bluetooth or in system preferences/bluetooth)
-
+set [this](https://github.com/tandav/airpods-reconnect/blob/master/main.py#L9) variable to your airpods name. (click in menubar/bluetooth or in system preferences/bluetooth)  
+then:
 ```
 python main.py
 ```
 
-### logs example
-```
+<details>
+<summary>logs example</summary>
+<pre>
 all good     *
 all good      *
 triggered
@@ -32,9 +33,14 @@ successfully connected to AirPods Pro
 pressing PLAY
 all good   *
 all good    *
-```
+</pre>
+</details>
 
-### todo
-- maybe rewrite in shell for better availability
-    - but maybe there's python3 in catalina [but you will have to install command line tools](google.com/search?q=macos+catalina+python+3)
-- try to minimize deps, at least PyUserInput
+<details>
+<summary>todo</summary>
+<ul>
+<li>maybe rewrite in shell for better availability</li>
+<li>but maybe there's python3 in catalina <a href='https://google.com/search?q=macos+catalina+python+3'>but you will have to install command line tools</a></li>
+<li>try to minimize deps, at least PyUserInput</li>
+</ul>
+</details>
