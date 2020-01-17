@@ -3,38 +3,42 @@ import time
 import subprocess
 from pykeyboard import PyKeyboard # TODO: dive into source to get rid of PyUserInput dependency, also try osascript
 
-cc = subprocess.check_call
-co = lambda x: subprocess.check_output(x, text=True).strip()
+co = lambda *x: subprocess.check_output(x, text=True).strip()
 
 airpods_name = 'AirPods Pro'
 
 def get_id(name):
-    for x in json.loads(co(['blueutil', '--paired', '--format', 'json'])):
+    for x in json.loads(co('blueutil', '--paired', '--format', 'json')):
         if x['name'] == name:
             return x['address']
 
 airpods_id = get_id(airpods_name)
 
 def current_output():
-    return co(['SwitchAudioSource', '-c'])
+    return co('SwitchAudioSource', '-c')
 
 def disconnect():
     print('disconnect')
-    cc(['blueutil', '--disconnect', airpods_id])
+    co('blueutil', '--disconnect', airpods_id)
 
 def connect():
     print('connect')
-    cc(['blueutil', '--connect', airpods_id])
+    co('blueutil', '--connect', airpods_id)
+    t = time.time()
     while True:
         curr_device = current_output()
         if curr_device == airpods_name:
             break
+        if time.time() - t > 10:
+            print('connect signal lost, sending connect signal again')
+            t = time.time()
+            co('blueutil', '--connect', airpods_id)
         print('waiting until connect, current output device is:', curr_device)
         time.sleep(1)
     print('successfully connected to', airpods_name)
 
 def is_connected():
-    return co(['blueutil',  '--is-connected', airpods_id]) == '1'
+    return co('blueutil',  '--is-connected', airpods_id) == '1'
 
 k = PyKeyboard()
 

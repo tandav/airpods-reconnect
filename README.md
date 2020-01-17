@@ -12,7 +12,7 @@ python -m pip install PyUserInput
 
 ### run
 
-set [this](https://github.com/tandav/airpods-reconnect/blob/master/main.py#L9) variable to your airpods name. (click in menubar/bluetooth or in system preferences/bluetooth)  
+set [this](https://github.com/tandav/airpods-reconnect/blob/master/main.py#L8) variable to your airpods name. (click in menubar/bluetooth or in system preferences/bluetooth)  
 then:
 ```
 python main.py
@@ -42,5 +42,6 @@ all good    *
 <li>maybe rewrite in shell for better availability</li>
 <li>but maybe there's python3 in catalina <a href='https://google.com/search?q=macos+catalina+python+3'>but you will have to install command line tools</a></li>
 <li>try to minimize deps, at least PyUserInput</li>
+<li>google for this problem and post my workaround answer to some sites / forums / reddit</li>
 </ul>
 </details>
