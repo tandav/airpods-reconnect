@@ -1,5 +1,6 @@
 import json
 import time
+import sys
 import subprocess
 from pykeyboard import PyKeyboard # TODO: dive into source to get rid of PyUserInput dependency, also try osascript
 
@@ -35,6 +36,7 @@ def connect():
             co('blueutil', '--connect', airpods_id)
         print('waiting until connect, current output device is:', curr_device)
         time.sleep(1)
+    time.sleep(2)
     print('successfully connected to', airpods_name)
 
 def is_connected():
@@ -48,7 +50,8 @@ while True:
         if is_connected():
             disconnect()
         connect()
-        print('pressing PLAY')
-        k.press_key('KEYTYPE_PLAY') # resume playback
+        if len(sys.argv) == 2:
+            print('pressing PLAY')
+            k.press_key('KEYTYPE_PLAY') # resume playback
     print('all good' + ' ' * int(str(int(time.time()))[-1]) + '*')
     time.sleep(1)  
